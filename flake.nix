@@ -14,6 +14,7 @@
         packages = forAllSystems (system:
           let
             pkgs = import nixpkgs { inherit system; };
+            nativeStdenv = pkgs.impureUseNativeOptimizations pkgs.stdenv;
 
             patchedBootstrap = pkgs.stdenv.mkDerivation {
               pname = "BQN";
@@ -37,9 +38,8 @@
               '';
               installPhase = "cp -r . $out";
             };
-
           in {
-            default = pkgs.stdenv.mkDerivation {
+            default = nativeStdenv.mkDerivation {
               pname = "cbqn";
               version = "complex";
               src = pkgs.fetchFromGitHub {
@@ -53,9 +53,8 @@
               nativeBuildInputs = [ pkgs.pkg-config ];
               buildInputs = [ pkgs.libffi ];
 
-              makeFlags = [ "CC=${pkgs.stdenv.cc.targetPrefix}cc" ];
-              buildFlags = [ "o3" "notui=1" "REPLXX=1" "target_from_cc=1" ]
-                           ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [ "f=-march=znver4" ];
+              makeFlags = [ "CC=${nativeStdenv.cc.targetPrefix}cc" ];
+              buildFlags = [ "o3" "notui=1" "REPLXX=1" "target_from_cc=1" ];
 
               dontConfigure = true;
 
@@ -79,6 +78,8 @@
                 ln -sf BQN $out/bin/bqn
                 ln -sf BQN $out/bin/cbqn
               '';
+
+              meta.mainProgram = "cbqn";
             };
           });
 

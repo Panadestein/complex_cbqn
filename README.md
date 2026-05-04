@@ -25,7 +25,7 @@ If you already cloned the repo, this also works:
 nix run
 ```
 
-That starts the patched `cbqn` executable.
+That builds for the local CPU with `-march=native` and starts the patched `cbqn` executable.
 
 ## What this flake provides
 
