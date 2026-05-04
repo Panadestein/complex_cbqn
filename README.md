@@ -1,6 +1,6 @@
 # CBQN Complex Numbers
 
-This repo exists to make the complex numbers support in CBQN easy to try.
+This repo exists to make the complex numbers support in [CBQN](https://github.com/dzaima/CBQN) easy to try.
 
 It packages a pinned CBQN checkout together with the bootstrap changes needed for the complex-number work, so you do not need to juggle branches or patch things by hand.
 
